@@ -1,0 +1,178 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage[rightcaption]{sidecap}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage[usenames]{color}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{Sondeos  de la Atmósfera}	% Título% 
+\date{08 de Febrero del 2017} %Aquí pueden cambiarla%					% Fecha de edición
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date										
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{logo}\\[0.5 cm]	% University Logo
+    \textsc{\Large Universidad de Sonora}\\[0.5 cm]	% University Name
+	\textsc{\Large División de Ciencias Exactas y Naturales}\\[0.5 cm]				% Course Code
+    \textsc{\Large Licenciatura en Física}\\[0.5 cm]	% 
+	\textsc{\large Física Computacional}\\[0.5 cm]	% Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+	
+	\begin{minipage}{\textwidth}
+		\begin{centering} 
+			\emph{\Large  Dr. Carlos Lizárraga Celaya \\
+            \vspace{0.5cm} Esteban Delgado Curiel} \\
+			\end{centering}
+            
+	\end{minipage}\\[1 cm]
+	{\large \thedate}\\[2 cm]
+ 
+	\vfill
+	
+\end{titlepage}
+
+%======================================================================================-
+
+%======================================================================================-
+\begin{center}
+\section*{Breve resumen}
+\end{center}
+En esta práctica se utilizarán algunas de las utilidades que ofrece Emacs, con el fin de facilitar el procedimiento para la elaboración de una recopilación de datos desde un archivo, al igual que filtrar información específica y manejarla a conveniencia dependiendo de la utilidad que se le de. 
+
+\begin{centering}
+\section*{Introducción}
+\end{centering}
+
+A lo largo de este documento se utilizarán datos recolectados por sondas atmosféricas que se lanzan varias veces al día, de la red de sondeos de Norteamérica. Los datos son recolectados y reportados por diversas estaciones y organizados por la Universidad de Wyoming. En particular, se mostrarán algunos datos de la ciudad de Guadalajara, Jalisco, llevando a la práctica las utilidades que ofrece el editor de textos Emacs en cuanto a compilación de datos.
+
+\section{Sondeos de la atmósfera}
+Las medidas meteorológicas no se limitan exclusivamente a  las que se realizan en  tierra con los aparatos fijos instalados en los Observatorios; también en la atmósfera superior se efectúan estas mismas medidas, cada día con más profusión. Con este fin se hacen elevar hasta la misma estratosfera aparatos adecuados que suministran datos sobre algunos elementos meteorológicos, como son la presión, la temperatura y la humedad de la porción de atmósfera que atraviesa en su ascensión. Esto es lo que se llama un sondeo atmosférico. 
+\begin{center}
+\includegraphics[width=9.1cm]{Mapa}
+\end{center}
+
+\newpage
+\subsection{Sistemas de sondeo y radiosondas}
+Los Sistemas de Radiosondeo de Vaisala, son utilizados en todo el mundo tanto en tierra como en el mar. Los sistemas Vaisala son la mejor opción en el mundo para medir condiciones de la atmósfera superior. En aproximadamente 500 Estaciones sinópticas alrededor del mundo, las radiosondas Vaisala son lanzadas diariamente en horarios sinópticos para colectar perfiles de datos de la atmósfera superior. \\
+Las radiosondas Vaisala miden temperatura, humedad y presión de la atmósfera superior, así como dirección y velocidad del viento conforme se elevan a más de 25 Km de altura. La Estación Terrena recibe las señales de la radiosonda, realiza automáticamente control de calidad, y genera mensajes meteorológicos que son transmitidos a redes meteorológicas.
+\vspace{1cm}
+\begin{SCfigure}[0.5][h]
+\caption{La radiosonda RS92 de Vaisala marca el camino para el sondeo en la era moderna. Su rendimiento en mediciones de presión, temperatura y humedad relativa es el mejor del mundo, y provee disponibilidad permanente a los datos de viento. }
+\includegraphics[width=0.6\textwidth]{sondeo}
+\end{SCfigure}
+
+\newpage
+\section{Estación de radiosondeo GUADALAJARA, JAL.}
+El departamento de ciencias atmosféricas de la universidad de Wyoming cuenta con una página donde es posible obtener los datos arrojados por los sondeos de distintas regiones de nuestro planeta. La ciudad elegida para analizar sus datos fue Guadalajara, Jalisco. La siguiente tabla muestra la cantidad de sondeos realizados por mes en la ciudad de Guadalajara.
+
+\centering
+\resizebox*{!}{13.03cm}{
+    \begin{tabular}{ | l | l | l | l | p{13.03cm} |}
+    \hline
+    Mes		   &  00Z	& 12Z &	Total \\ \hline
+    Enero	   &   0  	& 10  &	 10   \\ \hline
+    Febrero	   &   0    & 22  &	  22  \\ \hline
+    Marzo	   &   0    & 26  &	  26  \\ \hline
+    Abril 	   &   0    & 27  &	  27  \\ \hline
+    Mayo 	   &   0	& 28  &	  28  \\ \hline
+    Junio 	   &   0	& 24  &	  24  \\ \hline
+    Julio 	   &   0	& 26  &	  26  \\ \hline
+    Agosto     &   0	& 31  &	  31  \\ \hline
+    Septiembre &   0	& 29  &	  29  \\ \hline
+    Octubre    &   10	& 25  &	  35  \\ \hline
+    Noviembre  &   28	& 30  &	  58  \\ \hline
+    Diciembre  &   23	& 25  &	  48  \\ \hline
+ Total en 2016    &   61 	& 303 &	  418  \\ \hline
+    \hline
+    \end{tabular}}
+
+\newpage
+\subsection{Presión vs Altura}
+\begin{center}
+\includegraphics[width=11cm]{PvsA}
+\end{center}
+Respecto a la gráfica, se puede observas que la presión aumenta de manera exponencial conforme la altura va aumentando. Estos son datos del sondeo realizado el 1 de Febrero del 2017.
+\begin{center}
+\includegraphics[width=10cm]{PvsA2}
+\end{center}
+Transformando la gráfica a una escala logarítmica se puede apreciar como los puntos se alinean formando algo muy parecido a una recta, lo que confirma que la presión aumenta conforme aumenta la altura. 
+
+\newpage
+\subsection{Altura vs Temperatura}
+
+\includegraphics[width=12cm]{TvsA.png}
+
+En esta gráfica se aprecia como al aumentar la altura va disminuyendo la temperatura hasta llegar a la tropopausa, que es donde comienza poco a poco a aumentar la temperatura debido a que se esta llegando al límite de la atmósfera por lo que el calor provocado por los rayos solares hacen que aumente la temperatura conforme se aumente la altura.
+
+\newpage
+\section{Script}
+\begin{verbatim}
+# Descarga por mes. Cambiar año de consulta. Ajustar el numero de estacion.
+#!/bin/bash
+ 
+# Despues de editar: chmod 755 script1.sh
+# Para ejecutar: ./script1.sh
+ 
+IFS=":"
+LISTM31="01:03:05:07:08:10:12"
+#LISTM31="01:03:05:07"
+LISTM30="04:06:09:11"
+#LISTM30="04:06"
+LISTM28="02"
+ 
+# Script para bajar info por mes. Año 2016, dentro del URL:  YEAR=2015
+# Months 31 days
+for i in $LISTM31 ; do
+    /usr/bin/wget "http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2016&MONTH=$i&FROM=0100&TO=3112&STNM=76612"
+       /bin/sleep 5
+done
+# Months 30 days
+for i in $LISTM30 ; do
+    /usr/bin/wget "http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2016&MONTH=$i&FROM=0100&TO=3012&STNM=76612"
+       /bin/sleep 5
+done
+# Feb. 28 days
+for i in $LISTM28 ; do
+    /usr/bin/wget "http://weather.uwyo.edu/cgi-bin/sounding?region=naconf&TYPE=TEXT%3ALIST&YEAR=2016&MONTH=$i&FROM=0100&TO=2812&STNM=76612"
+       /bin/sleep 5
+done
+ \end{verbatim}
+
+En este script cambiamos la ubicación de unos datos obtenidos utilizando comandos, enviándolos a una carpeta conveniente.
+
+
+
+\newpage
+\section{Conclusión}
+La buena organización y manejabilidad de un gran número de datos puede ser la diferencia entre una buena investigación y otra no tan buena. En esta práctica se llevó a cabo el manejo de datos por medio del editor de textos Emacs. Estableciendo que es una herramienta muy útil y que garantiza una forma de trabajo efectiva y práctica.   
+
+\begin{thebibliography}{9}
+\bibitem{m2} \textit{http://www.rossbach.mx}, \textit{Sistemas de sondeo y radiosondas}
+\bibitem{m3} \textit{http://www.rossbach.mx}, \textit{Radiosondas}
+\end{thebibliography}
+
+\end{document}
