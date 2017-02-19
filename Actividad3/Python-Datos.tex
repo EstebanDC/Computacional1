@@ -1,0 +1,176 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{subfig}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage[rightcaption]{sidecap}
+\usepackage{parskip}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage[usenames]{color}
+\setmarginsrb{3 cm}{2.5 cm}{3 cm}{2.5 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{Manejo de datos con Python}	% Título% 
+\date{08 de Febrero del 2017} %Aquí pueden cambiarla%					% Fecha de edición
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date										
+\makeatother
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{logo}\\[0.5 cm]	% University Logo
+    \textsc{\Large Universidad de Sonora}\\[0.5 cm]	% University Name
+	\textsc{\Large División de Ciencias Exactas y Naturales}\\[0.5 cm]				% Course Code
+    \textsc{\Large Licenciatura en Física}\\[0.5 cm]	% 
+	\textsc{\large Física Computacional}\\[0.5 cm]	% Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+	
+	\begin{minipage}{\textwidth}
+		\begin{centering} 
+			\emph{\Large  Dr. Carlos Lizárraga Celaya \\
+            \vspace{0.5cm} Esteban Delgado Curiel} \\
+			\end{centering}
+            
+	\end{minipage}\\[1 cm]
+	{\large \thedate}\\[2 cm]
+ 
+	\vfill
+	
+\end{titlepage}
+
+%======================================================================================-
+
+%======================================================================================-
+\begin{center}
+\section*{Breve resumen}
+\end{center}
+En esta práctica se utilizará la información brindada por los sondeos atmosféricos de la ciudad correspondiente, en este caso Guadalajara, Jalisco, con el fin de organizar e interpretar el significado de la variación que estos presentan, filtrando los resultado obtenidos sobre CAPE y la cantidad de Agua precipitable.
+
+\begin{centering}
+\section*{Introducción}
+\end{centering}
+En esta práctica se lleva a cabo la elaboración de gráficas y diagramas de caja para las variables CAPE y Agua precipitable utilizando Jupyter Notebook, el cual es una aplicación en línea que permite crear y compartir documentos que contienen códigos, ecuaciones, visualizaciones y textos. También permite llevar a cabo la organización y limpieza de datos, simulaciones numéricas, modelos estadísticos, entre otras cosas más.\\
+
+\begin{centering}
+\section{Datos}
+\includegraphics[width=10cm]{Tabla2.png}
+
+\subsection{}
+\begin{centering}
+\includegraphics[width=10cm]{Tabla1.png}
+\end{centering}
+\end{centering}
+
+
+
+\newpage
+\section{CAPE}
+\begin{center}
+\includegraphics[width=13.4cm]{CAPE}
+\end{center}
+CAPE es un indicador de inestabilidad atmosférica que se considera muy valioso en cuanto a predecir condiciones del clima. Y el Agua precipitable es el contenido de humedad en la atmósfera; se mide como el espesor vertical que ocuparía si toda el agua cayera. 
+\vspace{1cm}
+\begin{figure}[H]
+ \centering
+  \subfloat[00Z]{
+   \label{00Z}
+    \includegraphics[width=0.48\textwidth]{CAPEG}}
+  \subfloat[12Z]{
+   \label{12Z}
+    \includegraphics[width=0.48\textwidth]{CAPEG2}}
+    \caption{Gráficas CAPE}
+\end{figure}
+\begin{figure}[H]
+ \centering
+  \subfloat[00Z]{
+   \label{00Z}
+    \includegraphics[width=0.48\textwidth]{CAPEG3}}
+  \subfloat[12Z]{
+   \label{12Z}
+    \includegraphics[width=0.48\textwidth]{CAPEG4}}
+    \caption{Gráficas CAPE}
+\end{figure}
+
+\subsection{Agua precipitable}
+\begin{center}
+\includegraphics[width=13.4cm]{AP}
+\end{center}
+El agua precipitable es la cantidad de agua, expresada como altura o masa, que se obtendría si todo el vapor de agua contenido en una columna específica de la atmósfera, de sección transversal horizontal unitaria, se condensase y precipitase. \\
+
+\begin{figure}[H]
+ \centering
+  \subfloat[00Z]{
+   \label{00Z}
+    \includegraphics[width=0.58\textwidth]{AG1}}
+  \subfloat[12Z]{
+   \label{12Z}
+    \includegraphics[width=0.58\textwidth]{AG2}}
+ \caption{Gráficas Agua precipitable}
+ \label{f:animales}
+\end{figure}
+
+\section{Procedimiento para la obtención de datos}
+Para elaborar la limpieza y organización de datos se utilizó el editor de textos Emacs, el cual es muy práctico y útil más que nada.\\
+\\
+Para filtrar los datos obtenidos de los sondeos atmosféricos que utilizaron los siguientes comando de Emacs:
+\begin{verbatim}
+
+cat sondeos.txt | egrep -i "Observations|CAPE|precipitable" |
+sed -e '/00Z/,+2d' > 12Zanual.txt
+
+cat sondeos.txt | egrep -i "Observations|CAPE|precipitable" |
+sed -e '/12Z/,+2d' > 00Zanual.txt
+\end{verbatim}
+\vspace{0.5cm}
+Después se utilizaron comandos en Emacs como "query replace" para extraer solo datos útiles de los filtrados anteriormente para después agregarlos a nuevos archivos.
+
+\newpage
+Tomando los archivos creados en Emacs, en Python se crearon las gráficas mostradas a lo largo de este reporte utilizando los siguientes comandos:
+
+\begin{verbatim}
+import pandas as pd
+import numpy as np
+import matplotlib as plt
+df = pd.read_csv("/home/estebandelgado/Física Computacional/Actividad3
+/00Zanual.csv")
+
+df.head(21)
+df.describe()
+df.apply(lambda x: sum(x.isnull()),axis=0)
+df_clean = df.dropna()
+df_clean.describe()
+df.columns
+matplotlib inline
+df_clean['CAPE'].hist(bins=21)
+df.CAPE.dtypes
+df.boxplot(column='CAPE', return_type="axes") 
+df.boxplot(column='Agua precipitable',return_type="axes") 
+\end{verbatim}
+Esto para la obtención de datos en 00Z
+
+
+
+\begin{thebibliography}{9}
+\bibitem{m2}
+ \textit{http://weather.uwyo.edu/upperair/sounding.html}, \textit{Radiosondeos}
+\end{thebibliography}
+
+\end{document}
