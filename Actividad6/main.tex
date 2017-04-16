@@ -1,0 +1,169 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx} 
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{Análisis armónico de mareas}  % Título
+\author{\centering Delgado Curiel Esteban}											% Autores
+\date{04 de Abril del 2017} %Aquí pueden cambiarla%					% Fecha de edición
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date										
+\makeatother
+
+%% Para que salga el título en todas las hojas
+%\pagestyle{fancy}
+%\fancyhf{}
+%\lhead{\thetitle}
+%\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\begin{centering}
+    
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{logouni}\\[0.5 cm]	% University Logo
+    \textsc{\Large Universidad de Sonora}\\[1.0 cm]	% University Name
+	\textsc{\Large División de Ciencias Exactas y Naturales}\\[0.5 cm]				% Course Code
+	\textsc{\large Física Computacional}\\[0.5 cm]				% Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+	
+	\begin{minipage}{\textwidth}
+		\begin{flushleft} 
+			\emph{\Large} \large \\
+			\theauthor
+			\end{flushleft}
+	
+		\begin{flushleft} 
+			{Profesor:} \large \centering Carlos Lizárraga Celaya	
+			\end{flushleft}
+	\end{minipage}\\[1 cm]
+	{\large \thedate}\\[2 cm]
+ 
+	\vfill
+    \end{centering}
+    \end{titlepage}
+    
+\newpage
+  \section{Breve resumen}
+  
+En este reporte podremos interpretar los datos obtenidos previamente sobre las ciudades seleccionadas, en este caso Coatzacoalcos, Veracruz, y Boston, Massachusetts. Ésto por medio de gráficas basadas en los datos obtenidos utilizando una transformada discreta de Fourier desarrollada en Python que nos permitirá identificar algunos tipos de componentes de mareas mediante la obtención de los valores máximos de amplitud en los niveles de agua a una respectiva frecuencia. 
+
+
+\begin{center}
+	\includegraphics[width=11cm]{plot}
+	\end{center}
+  
+  \section{Introducción}
+  
+  Una vez obtenidos datos de mareas de los lugares seleccionados,  podemos tratar de encontrar regularidades en los niveles de las mareas.
+La teoría de las mareas es una rama de la mecánica de medios continuos, que busca interpretar y predecir las deformaciones en las mareas en los océanos debido a la atracción gravitacional de los cuerpos celestes, en especial debido a la Luna.
+Fue William Thomson quien un poco antes de 1900 aplicó un análisis de Fourier para hacer un análisis armónico del movimiento de las mareas, para descomponer su movimiento en sus componentes principales.
+
+
+\newpage
+\section{Interpretación de datos}
+La transformada discreta de Fourier se deriva del análisis de Fourirer, que es aplicable a muestras uniformemente espaciadas de una función continua. El término discreta se refiere al hecho de que la transformada opera datos cuyos intervalos comunmente tienen unidades de tiempo.
+
+\subsection{Coatzacoalcos, Veracruz}
+Para esta ciudad se tomaron los datos del mes de julio del 2016 y fue posible localizar los componentes de las mareas $O_1$ y $K_1$, ambos llamados componentes lunares diurnos y $M_2$, componente lunar semidiurno principal.\\
+
+
+	\begin{center}
+	\includegraphics[width=11cm]{Coatzaplot}
+	\end{center}
+    
+El código para la obtención de la gráfica fue el siguiente:
+
+\begin{verbatim}
+from scipy.fftpack import fft, fftfreq, fftshift
+# number of signal points
+N = 744
+# sample spacing
+T = 1
+x = df['dia']
+y = df['altura(mm)']
+yf = fft(y)
+xf = fftfreq(N, T)
+xf = fftshift(xf)
+yplot = fftshift(yf)
+import matplotlib.pyplot as plt
+plt.plot(xf, 1.0/N * np.abs(yplot))
+plt.xlim(-0.01,.10)
+plt.ylabel('Amplitud (mm)')
+plt.xlabel('Frecuencia')
+plt.text(0.036, 50, '$O_1$')
+plt.text(0.0801, 37.09, '$M_2$')
+plt.text(0.0401, 77, '$K_1$')
+plt.grid()
+fig=plt.gcf()
+fig.set_size_inches(7,7)
+plt.show()
+\end{verbatim}
+
+Previamente se extrajeron los datos que brindan la información sobre el tipo de mareas que se presentan en Coatzacoalcos, Veracruz, para después crear una columna con formato datetime que permite una mejor elaboración de la gráfica. 
+ 
+\newpage
+\subsection{Boston, Massachusetts}
+
+Para esta ciudad se tomaron los datos del mes de marzo del 2016 y fue posible localizar los componentes de las mareas $O_1$ y $K_1$ ambos componentes lunares diurnos y $M_2$ y $S_2$, ambos componentes lunares semidiurnos principales.\\
+
+
+	\begin{center}
+	\includegraphics[width=11cm]{Bostonplot}
+	\end{center}
+    
+El código para la obtención de la gráfica fue el siguiente:
+
+\begin{verbatim}
+from scipy.fftpack import fft, fftfreq, fftshift
+# number of signal points
+N = 720
+# sample spacing
+T = 1
+x = df['Date Time']
+y = df['Water Level']
+yf = fft(y)
+xf = fftfreq(N, T)
+xf = fftshift(xf)
+yplot = fftshift(yf)
+import matplotlib.pyplot as plt
+plt.plot(xf, 1.0/N * np.abs(yplot))
+plt.xlim(-.01,.09)
+plt.grid()
+plt.ylabel('Amplitud (ft)')
+plt.xlabel('Frecuencia')
+plt.text(0.081, 0.7, '$M_2$')
+plt.text(0.083, 0.14, '$S_2$')
+plt.text(0.042, 0.04, '$K_1$')
+plt.text(0.037, 0.059, '$O_1$')
+plt.show()
+\end{verbatim}
+
+Previamente se llevó un proceso análogo al mencionado anteriormente en el caso de Coatzacoalcos, Veracruz.
+  
+  
+  
+\newpage
+\begin{thebibliography}{9}
+
+\bibitem{a1} \textsc{https://en.wikipedia.org/wiki/Theory\_of\_tides} \textit{Teoría de las mareas}
+
+\bibitem{a1} \textsc{https://en.wikipedia.org/wiki/Discrete-time\_Fourier\_transform} \textit{Transformada discreta de Fourier}
+
+\end{thebibliography}
+
+\end{document}
+
+
