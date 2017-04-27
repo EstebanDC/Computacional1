@@ -1,0 +1,183 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx} 
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{Actividad Magnética Solar}  % Título
+\author{\centering Delgado Curiel Esteban}											% Autores
+\date{26 de Abril del 2017} %Aquí pueden cambiarla%					% Fecha de edición
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date										
+\makeatother
+
+%% Para que salga el título en todas las hojas
+%\pagestyle{fancy}
+%\fancyhf{}
+%\lhead{\thetitle}
+%\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\begin{centering}
+    
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{logouni}\\[0.5 cm]	% University Logo
+    \textsc{\Large Universidad de Sonora}\\[1.0 cm]	% University Name
+	\textsc{\Large División de Ciencias Exactas y Naturales}\\[0.5 cm]				% Course Code
+	\textsc{\large Física Computacional}\\[0.5 cm]	
+    
+    \textsc{\large Evaluación ii}\\[0.5 cm]
+    % Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+	
+	\begin{minipage}{\textwidth}
+		\begin{flushleft} 
+			\emph{\Large} \large \\
+			\theauthor
+			\end{flushleft}
+	
+		\begin{flushleft} 
+			{Profesor:} \large \centering Carlos Lizárraga Celaya	
+			\end{flushleft}
+	\end{minipage}\\[1 cm]
+	{\large \thedate}\\[2 cm]
+ 
+	\vfill
+    \end{centering}
+    \end{titlepage}
+    
+    
+\newpage
+En esta evaluación se llevó a cabo una aproximación del ciclo en el que el Sol presenta una serie de cambios tanto en su apariencia como en su actividad, utilizando datos de la NASA sobre el número promedio de manchas solares por mes registradas desde 1749 hasta Septiembre del 2016.
+
+\begin{center}
+\includegraphics[width=10cm]{solarcycle}
+\end{center}
+
+
+\section*{Procedimiento}
+
+\textbf{1.-} El primer paso para obtener elaborar la evaluación fue importar los paquetes a utilizar 
+
+\begin{verbatim}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as mplt
+import pylab as plt
+from matplotlib import rc
+from pylab import figure, show, legend, xlabel, ylabel
+\end{verbatim}
+
+\textbf{2.-} Después, leer el archivo descargado de la página de la NASA donde se encuentran los datos sobre el promedio de manchas solares registradas desde 1749 hasta 2016
+
+\begin{verbatim}
+df=pd.read_csv("manchas", header=None, sep="\s+",names= ['Año','Mes','Año-Mes','Manchas','X','Y'])
+df.head(10)
+\end{verbatim}
+
+\textbf{3.-} En este paso se aplico la transformada discreta de Fourier para encontrar la frecuencia del ciclo principal.
+
+\begin{verbatim}
+from scipy.fftpack import fft, fftfreq, fftshift
+# number of signal points
+N = 3213
+# sample spacing
+T = 1
+x = df['Año-Mes']
+y = df['Manchas']
+yf = fft(y)
+xf = fftfreq(N, T)
+xf = fftshift(xf)
+yplot = fftshift(yf)
+import matplotlib.pyplot as plt
+plt.plot(xf, 1.0/N * np.abs(yplot))
+plt.xlim(0,.02)
+
+plt.title('Actividad magnética solar 1749-2016')
+plt.ylabel('Manchas solares')
+plt.xlabel('Año-Mes')
+plt.grid()
+fig=plt.gcf()
+fig.set_size_inches(7,7)
+plt.show()
+\end{verbatim}
+
+Donde resultó la siguiente gráfica
+
+\begin{center}
+\includegraphics[width=10cm]{AMS}
+\end{center}
+
+\textbf{4.-} Las amplitudes de los valores máximos considerados fueron las siguientes
+
+\begin{center}
+\includegraphics[width=10cm]{Amplitudes}
+\end{center}
+
+
+\textbf{5.-} Obtneción de las frecuencias principales
+
+\begin{verbatim}
+f1= xf[int(N/2 +24),]
+f2= xf[int(N/2 +25),]
+f3= xf[int(N/2 +27),]
+\end{verbatim}
+
+
+\newpage
+\textbf{6.-} Obtención de Periodos Principales
+
+\begin{center}
+\includegraphics[width=10cm]{Periodos}
+\end{center}
+
+
+\textbf{7.-} Promedio de Periodos Principales
+
+\begin{center}
+\includegraphics[width=10cm]{Promedio}
+\end{center}
+
+\begin{table}[]
+\centering
+\caption{Tabla de Amplitudes}
+\label{my-label}
+\begin{tabular}{llll}
+n & Amplitud & Periodo  & Frecuencia \\
+1 & 24       & 11.15625 & 0.0896     \\
+2 & 25       & 10.71    & 0.09337    \\
+3 & 27       & 9.6166   & 0.1039    
+\end{tabular}
+\end{table}
+
+La forma en la que se puede predecir el número de manchas solares es aplicando el proceso inverso de la obtención de la transformada discreta de Fourier, así como fue utilizado en la Actividad 7 sobre las mareas.
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+\end{document}
