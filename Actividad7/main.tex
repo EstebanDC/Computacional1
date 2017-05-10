@@ -1,0 +1,203 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx} 
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{Actividad 7}  % Título
+\author{\centering Delgado Curiel Esteban}											% Autores
+\date{2 de Mayo del 2017} %Aquí pueden cambiarla%					% Fecha de edición
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date										
+\makeatother
+
+%% Para que salga el título en todas las hojas
+%\pagestyle{fancy}
+%\fancyhf{}
+%\lhead{\thetitle}
+%\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\begin{centering}
+    
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{logouni}\\[0.5 cm]	% University Logo
+    \textsc{\Large Universidad de Sonora}\\[1.0 cm]	% University Name
+	\textsc{\Large División de Ciencias Exactas y Naturales}\\[0.5 cm]				% Course Code
+	\textsc{\large Física Computacional}\\[0.5 cm]	
+    % Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+	
+	\begin{minipage}{\textwidth}
+		\begin{flushleft} 
+			\emph{\Large} \large \\
+			\theauthor
+			\end{flushleft}
+	
+		\begin{flushleft} 
+			{Profesor:} \large \centering Carlos Lizárraga Celaya	
+			\end{flushleft}
+	\end{minipage}\\[1 cm]
+	{\large \thedate}\\[2 cm]
+ 
+	\vfill
+    \end{centering}
+    \end{titlepage}
+    
+\newpage
+
+\section*{Breve Resumen}
+Utilizando la transformada discreta de Fourier encontramos una manera de interpretar los datos obtenidos sobre las mareas en los lugares seleccionados, para poder así descomponer la señal de las amplitudes de las mareas en un intervalo de tiempo dado, lo que nos permitió obtener las amplitudes de las frecuencias naturales de la marea de cada lugar. El nuevo objetivo será reconstruir la señal de la marea obtenida por medio de los datos proporcionados por el cálculo de la transformada discreta de Fourier.creta de Fourier.
+
+\begin{center}
+	\includegraphics[width=8cm]{act7}
+	\end{center}
+
+\section*{Introducción}
+Las transformada discreta de Fourier o DFT es un tipo de transformada discreta utilizada en el análisis de Fourier. Transforma una función matemática en otra, obteniendo una representación en el dominio de la frecuencia, siendo la función original una función en el dominio del tiempo. Pero la DFT requiere que la función de entrada sea una secuencia discreta y de duración finita. 
+
+\section*{Procedimiento}
+Se tomó un procedimiento muy parecido para los dos lugares seleccionados, cambiando pocos detalles al momento de ingresar los datos necesarios correspondientes a cada lugar para realizar la gráfica.
+
+\newpage
+\textbf{Paso 1.-} Importar los paquetes o bibliotecas a utilizar
+
+\begin{verbatim}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as mplt
+import pylab as plt
+from matplotlib import rc
+from pylab import figure, show, legend, xlabel, ylabel
+\end{verbatim}
+
+\textbf{Paso 2.- Leer los archivos necesarios para la interpretación de datos}
+
+\begin{verbatim}
+df=pd.read_csv("coatza.csv",header=int(0))
+df_b=pd.read_csv("Boston2.csv",header=int(0))
+\end{verbatim}
+
+\textbf{Paso 3.-} Establecer y nombrar las columnas a utilizar
+
+\begin{verbatim}
+from datetime import datetime
+df['date']= df.apply(lambda x:datetime.strptime("{0} {1} {2}
+{3}".format(x[u'año'],x[u'mes'],
+x[u'dia'], x[u'hora(utc)']), "%Y %m %d %H"),axis=1)
+df_b['Date Time']=pd.to_datetime(df_b['Date Time'], format="%Y %m %d %H")
+\end{verbatim}
+
+Después del Paso 3 y del uso de varios códigos para llevar a cabo una buena interpretación de los datos, se comienza con el proceso individual en el manejo de códigos para la elaboración de las gráficas correspondientes a cada lugar
+
+\subsection*{Coatzacoalcos, Veracruz}
+Utilizando códigos de la práctica anterior y añadiendo los que se mostrarán a continuación podremos obtener la gráfica necesaria para la interpretación de datos
+
+
+Utilizando las amplitude,frecuencias y obtenidas se elabora el siguiente código 
+
+\begin{verbatim}
+y= df['altura(mm)']/1000
+w= 2*np.pi
+a=0
+def f(t):
+    return A0+ (A1*np.cos(w*f1*t+O1) + A2*np.cos(w*f2*t+O2) +
+    A3*np.cos(w*f3*t+O3) +
+    A4*np.cos(w*f4*t+O4) +
+    A5*np.cos(w*f5*t+O5))
+\end{verbatim}
+
+y para obtener la gráfica 
+
+\begin{verbatim}
+plt.plot(df[u'date'], df[u'altura(mm)'], 'g', label="Altura")
+plt.plot(df['date'], f(df['T']), 'r-', label='Altura reconstruida')
+plt.ylabel('Altura de marea [m]')
+plt.xlabel('Fecha')
+plt.title('Marea en Coatzacoalcos, Veracruz. Julio 2016')
+plt.grid(True)
+plt.legend()
+locs, labels = plt.xticks()
+plt.setp(labels, rotation=65)
+
+fig = plt.gcf()
+fig.set_size_inches(15, 10)
+
+plt.show()
+\end{verbatim}
+
+cuyo resultado arrója la siguiente imagen 
+
+\begin{center}
+\includegraphics[width=10cm]{coatzapplot}
+\end{center}
+
+
+\subsection*{Boston, Massachusetts}
+
+Demanera análoga se lleva a cabo el proceso para la interpretación de datos mediante una gráfica para Boston, Massachusetts.
+
+Utilizando las amplitudes,frecuencia y fases obtenidas por medio de los datos se elabora lo siguiente 
+
+\begin{verbatim}
+y= df['altura(mm)']/1000
+w= 2*np.pi
+a=0
+def f(t):
+    return B0+ (B1*np.cos(w*bf1*t+bO1) + B2*np.cos(w*bf2*t+bO2) 
+                + B3*np.cos(w*bf3*t+bO3) + B4*np.cos(w*bf4*t+bO4)
+                
+                + B5*np.cos(w*bf5*t+bO5) + B6*np.cos(w*bf6*t+bO6)
+                
+                + B7*np.cos(w*bf7*t+bO7) + B8*np.cos(w*bf8*t+bO8)
+                
+                + B9*np.cos(w*bf9*t+bO9) + B10*np.cos(w*bf10*t+bO10)
+                
+                + B11*np.cos(w*bf11*t+bO11) + B12*np.cos(w*bf12*t+bO12)
+                
+                + B13*np.cos(w*bf13*t+bO13))
+                
+\end{verbatim}
+
+Para la elaboración de la gráfica
+
+\begin{verbatim}
+plt.plot(df_b[u'Date Time'], df_b[u' Water Level'], 'k', label="Altura")
+plt.plot(df_b['Date Time'], f(df_b['T']), 'y-', label='Altura reconstruida')
+plt.ylabel('Altura de marea [m]')
+plt.xlabel('Fecha')
+plt.title('Marea en Boston, Massachusetts. Marzo 2016')
+#plt.xlim(pd.Timestamp('2016-03-13
+00:00:00'), pd.Timestamp('2016-03-14 00:00:00') )
+plt.grid(True)
+plt.legend()
+locs, labels = plt.xticks()
+plt.setp(labels, rotation=65)
+
+fig = plt.gcf()
+fig.set_size_inches(15, 10)
+
+plt.show()
+\end{verbatim}
+
+y muestra lo siguiente
+
+
+\begin{center}
+\includegraphics[width=13cm]{bostonpplot}
+\end{center}
+
+        
+\end{document}
