@@ -1,0 +1,183 @@
+\documentclass[12pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{babel,blindtext}
+\usepackage{url}
+\usepackage{graphicx} 
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+\title{Actividad 9}	% Título
+\author{\centering Delgado Curiel Esteban}											% Autores
+\date{19 de Mayo del 2017} %Aquí pueden cambiarla%					% Fecha de edición
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date										
+\makeatother
+
+%% Para que salga el título en todas las hojas
+%\pagestyle{fancy}
+%\fancyhf{}
+%\lhead{\thetitle}
+%\cfoot{\thepage}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\begin{centering}
+    
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.5]{logouni}\\[0.5 cm]	% University Logo
+    \textsc{\Large Universidad de Sonora}\\[1.0 cm]	% University Name
+	\textsc{\Large División de Ciencias Exactas y Naturales}\\[0.5 cm]				% Course Code
+	\textsc{\large Física Computacional}\\[0.5 cm]				% Course Name
+	\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+	{ \huge \bfseries \thetitle}\\
+	\rule{\linewidth}{0.2 mm} \\[0.5 cm]
+	
+	\begin{minipage}{\textwidth}
+		\begin{flushleft} 
+			\emph{\Large} \large \\
+			\theauthor
+			\end{flushleft}
+	
+		\begin{flushleft} 
+			{Profesor:} \large \centering Carlos Lizárraga Celaya	
+			\end{flushleft}
+	\end{minipage}\\[1 cm]
+	{\large \thedate}\\[2 cm]
+ 
+	\vfill
+    \end{centering}
+    \end{titlepage}
+    
+\section*{Breve Resumen}
+Partiendo de la práctica anterior donde se abarcan temas relacionados al Efecto Mariposa y a la Teoría del Caos de Edward Lorenz. Esta práctica será basada principalmente en el trabajo de Geoff Boeing, sobre Teoría del Caos y el Mapeo Logístico.  Para ello se requerirá instalar el paquete de Python, llamado pynamical, que puede ser instalado localmente en el sistema, mediante el comando: pip install pynamical.
+
+
+\section*{Introducción}
+
+La teoría del Caos es una rama de las matemáticas que se lleva a cabo con sistemas dinámicos no lineales. Un sistema es un conjunto de componentes interactuando que conforman un todo. No lineal se refiere a que debido a efectos multiplicativos entre los componentes, el conjunto se vuelve algo más que agregar partes individuales. Y por último, dinámico se refiere a que el sistema cambia con el tiempo basado en su estado inicial. A pesar de su simplicidad determinista, en el transcurso del tiempo estos sistemas producen un impredecible y ampliamente divergente comportamiento. Edward Lornz, el padre de la teoría del caos, describió el caos como "cuando el presente determina el futuro, pero el presente aproximado no determina aproximadamente el futuro."
+
+\newpage
+\section*{Procedimiento}
+Para llevar a cabo la siguiente práctica se utilizaron los códigos proporcionados por Geoff Boeing, los cuales están ubicados en el url de la referencia [3] Pynamical-Python.
+
+
+\section*{Comportamiento del sistema y atractores}
+Como se puede apreciar facilmente, la población cambia conforme pasa el tiempo, reflejandose en las diferentes tasas de crecimiento.\\
+
+\begin{center}
+\includegraphics[width=11cm]{1}
+\end{center}
+
+Pero cuando se ajusta la tasa de crecimiento más allá de 3.5, podemos observar el comienzo del caos. Un sistema caótico tiene un atractor extraño, en el cual el sistema oscila para siempre, nunca repitiendo su trayectoria ni manteniendo un estado de comportamiento. Nunca pasa por un punto dos veces y su estructura tiene una forma fractal, significando que los mismos patrones existen en todas las escalas, sin importar qué tan profunda sea la observación.
+
+\newpage
+\section*{Bifurcaciones y el camino al caos}
+
+Para poder mostrarlo de manera más clara, se presentará un modelo logístico nuevamente, esta vez de 200 generaciones contra 1000 tasas de crecimiento entre 0.0 y 4.0. Cuando se produjo un gráfico de líneas, se tenían solo 7 tasas de crecimiento, como ahora se tienen 1000 para visualizarlo de manera diferente se utilizará algo llamado Diagrama de Bifurcación:
+
+
+\begin{center}
+\includegraphics[width=12cm]{2}
+\end{center}
+
+
+
+\newpage
+\section*{El comienzo del caos}
+
+Más allá de la tasa de crecimiento de 3.6, las bifurcaciones se elevarían hasta que el sistema fuera capaz de tomar cualquier valor de población. Esto es conocido como periodo doble de camino hacia el caos. \\
+
+Haciendo un pequeño acercamiento a las tasas de crecimiento entre 3.7 y 3.9 podemos observar lo siguiente:
+
+\begin{center}
+\includegraphics[width=12cm]{3}
+\end{center}
+
+\newpage
+\section*{Fractales y extractores extraños}
+En la gráfica anterior, las bifurcaciones cercanas a la tasa de crecimiento 3.85 parece un poco familiar. Aproximandonos al centro se aprecia los siguiente: 
+
+\begin{center}
+\includegraphics[width=12cm]{3_5}
+\end{center}
+
+Increiblemente se pueden observar exactamente la misma estructura que se había visto a nivel macro. De hecho, si me mantiene aproximandose infinitamente en la gráfica, se podrá seguir observando los mismos patrones y la misma estructura en cada vez más finas escalas, para siempre.\\
+
+Esto debido a que tratamos con sistemas caóticos, los cuales tienes atractores extraños y su estructura puede ser denominada como fractal. Los fractales tienen la misma estructura en cualquier escala. Conforme observas más a fondo encuentras pequeñas copias de la estructura macro.
+
+\newpage
+Otra forma de visulizar esto es utilizando un diagrama de fase, el cual grafíca el valor de la población a una generación t+1 en el eje y contra el valor de la población a 1 sobre el eje x.
+
+
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{8}
+  \caption{1}\label{1}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{9}
+  \caption{2}\label{2}
+\endminipage\hfill
+\minipage{0.32\textwidth}%
+  \includegraphics[width=\linewidth]{10}
+  \caption{3}\label{3}
+\endminipage
+\end{figure}
+
+Esto es lo que sucede cuando las bifurcaciones de periodo doble se dirigen hacia el caos:
+
+\begin{center}
+\includegraphics[width=7cm]{11}
+\end{center}
+
+
+\newpage
+\section*{Implicaciones del caos}
+Los sistemas caóticos y fractales incluyendo grifos con fugas, helechos, ritmos cardiácos, y generadores de números al azar. Muchos académicos han estudiado las implicaciones de la teoría del caos para las ciencias sociales, ciudades, y planes urbanos. El caos fundamentalmente indica que hay límites para el conocimiento y la predicción. Algunos futuros podrían ser desconocidos con cualquier precisión. Sistemas deterministas pueden producir un comportamiento amplio, fluctuante y para nada repetitivo.\\
+
+Intervenciones a sistemas pueden tener resultados impredecibles aún cuando inicialmente cambian cosas ligeramente, conforme estos efectos se agravan con el tiempo. 
+
+\newpage
+\section*{Referencias}
+
+[1] Animaciones 3D.\\ \url{http://geoffboeing.com/2015/04/animated-3d-plots-python/}\\
+
+[2] Chaos Theory and the Logistic Map. Geoff Boeing.\\ \url{http://geoffboeing.com/2015/03/chaos-theory-logistic-map/}\\
+
+[3] Pynamical-Python.\\ \url{https://github.com/gboeing/pynamical}\\
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+\end{document}
+
+
+
+
+
